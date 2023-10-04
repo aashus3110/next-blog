@@ -24,7 +24,7 @@ export default async function Home() {
         {blogs?.length > 0 ? (
           blogs.map((blog) => <BlogCard key={blog._id} blog={blog} />)
         ) : (
-          <h3 className={classes.noBlogs}>No blogs are currently in the</h3>
+          <h3 className={``}>No blogs are currently in the</h3>
         )}
       </div>
     </div>

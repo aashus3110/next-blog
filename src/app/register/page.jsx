@@ -25,7 +25,7 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch("https://nextblog-post.vercel.app/api/register", {
+      const res = await fetch("http://localhost:3000/api/register", {
         headers: {
           "Content-Type": "application/json",
         },
