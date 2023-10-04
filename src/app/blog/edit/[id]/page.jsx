@@ -21,7 +21,7 @@ const Edit = (ctx) => {
   useEffect(() => {
     async function fetchBlog() {
       const res = await fetch(
-        `http://localhost:3000/api/blog/${ctx.params.id}`
+        `${process.env.NEXT_PUBLIC_API_URL}api/blog/${ctx.params.id}`
       );
 
       const blog = await res.json();
@@ -66,7 +66,7 @@ const Edit = (ctx) => {
       }
 
       const res = await fetch(
-        `http://localhost:3000/api/blog/${ctx.params.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/blog/${ctx.params.id}`,
         {
           headers: {
             "Content-Type": "application/json",

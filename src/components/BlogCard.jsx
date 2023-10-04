@@ -23,12 +23,15 @@ const BlogCard = ({ blog: { title, desc, imageUrl, likes, _id } }) => {
 
   const handleLike = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/blog/${_id}/like`, {
-        headers: {
-          Authorization: `Bearer ${session?.user?.accessToken}`,
-        },
-        method: "PUT",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}api/blog/${_id}/like`,
+        {
+          headers: {
+            Authorization: `Bearer ${session?.user?.accessToken}`,
+          },
+          method: "PUT",
+        }
+      );
 
       console.log(res);
       if (res.ok) {

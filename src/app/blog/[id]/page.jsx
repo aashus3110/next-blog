@@ -27,7 +27,7 @@ const BlogDetails = (ctx) => {
   useEffect(() => {
     async function fetchComments() {
       const res = await fetch(
-        `http://localhost:3000/api/comment/${ctx.params.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/comment/${ctx.params.id}`,
         {
           cache: "no-store",
         }
@@ -42,7 +42,7 @@ const BlogDetails = (ctx) => {
   useEffect(() => {
     async function fetchBlog() {
       const res = await fetch(
-        `http://localhost:3000/api/blog/${ctx.params.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/blog/${ctx.params.id}`,
         {
           cache: "no-store",
         }
@@ -64,7 +64,7 @@ const BlogDetails = (ctx) => {
 
       if (confirmModal) {
         const res = await fetch(
-          `http://localhost:3000/api/blog/${ctx.params.id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}api/blog/${ctx.params.id}`,
           {
             headers: {
               Authorization: `Bearer ${session?.user?.accessToken}`,
@@ -85,7 +85,7 @@ const BlogDetails = (ctx) => {
   const handleLike = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/blog/${ctx.params.id}/like`,
+        `${process.env.NEXT_PUBLIC_API_URL}api/blog/${ctx.params.id}/like`,
         {
           headers: {
             Authorization: `Bearer ${session?.user?.accessToken}`,
@@ -122,7 +122,7 @@ const BlogDetails = (ctx) => {
         text: commentText,
       };
 
-      const res = await fetch(`http://localhost:3000/api/comment`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/comment`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${session?.user?.accessToken}`,
