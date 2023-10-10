@@ -2,7 +2,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import classes from "./blog.module.css";
 import { BsFillPencilFill } from "react-icons/bs";
 import { AiFillDelete, AiFillLike, AiOutlineLike } from "react-icons/ai";
 import Link from "next/link";
@@ -144,81 +143,113 @@ const BlogDetails = (ctx) => {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.wrapper}>
-        <Image src={blogDetails?.imageUrl} width="500" height="400" />
-        <div className={classes.row}>
-          <h3 className={classes.title}>{blogDetails?.title}</h3>
-          {blogDetails?.authorId?._id.toString() ===
-          session?.user?._id.toString() ? (
-            <div className={classes.controls}>
-              <Link
-                className={classes.editButton}
-                href={`/blog/edit/${ctx.params.id}`}
-              >
-                Edit <BsFillPencilFill />
-              </Link>
-              <button onClick={handleDelete} className={classes.deleteButton}>
-                Delete
-                <AiFillDelete />
-              </button>
-            </div>
-          ) : (
-            <div className={classes.author}>
-              Author: <span>{blogDetails?.authorId?.username}</span>
-            </div>
-          )}
-        </div>
-        <div className={classes.row}>
-          <div className={classes.category}>
-            Category:
-            <span>{blogDetails?.category}</span>
-          </div>
-          <div className={classes.right}>
-            {blogLikes}{" "}
-            {isLiked ? (
-              <AiFillLike size={20} onClick={handleLike} />
-            ) : (
-              <AiOutlineLike size={20} onClick={handleLike} />
-            )}
-          </div>
-        </div>
-        <div className={`flex justify-between w-[80%]`}>
-          <p className="w-4/6">{blogDetails?.desc}</p>
-          <span className="w-1/5">
-            Posted: <span>{format(blogDetails?.createdAt)}</span>
-          </span>
-        </div>
-        <div className={classes.commentSection}>
-          <div className={classes.commentInput}>
-            <Image src={Daco} width="45" height="45" alt="" />
-            <input
-              value={commentText}
-              type="text"
-              placeholder="Type message..."
-              onChange={(e) => setCommentText(e.target.value)}
+    <>
+      <section className="text-gray-600 body-font overflow-hidden">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="lg:w-4/5 mx-auto flex flex-wrap">
+            <Image
+              alt="Blog Img "
+              src={blogDetails?.imageUrl}
+              width="250"
+              height="250"
+              className="lg:w-1/2 w-full lg:h-[35rem] h-64 object-fill object-center rounded-md"
             />
-            <button onClick={handleComment}>Post</button>
+            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+              <h2 className="text-sm title-font text-gray-500 tracking-widest">
+                Category :- <span>{blogDetails?.category}</span>
+              </h2>
+              <div className="flex justify-around">
+                <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
+                  {blogDetails?.title}
+                </h1>
+                <div className="flex items-center gap-2">
+                  {blogLikes}{" "}
+                  {isLiked ? (
+                    <AiFillLike size={20} onClick={handleLike} />
+                  ) : (
+                    <AiOutlineLike size={20} onClick={handleLike} />
+                  )}
+                </div>
+              </div>
+              <div className="my-5">
+                {blogDetails?.authorId?._id.toString() ===
+                session?.user?._id.toString() ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <Link
+                      className="flex gap-3 items-center border border-emerald-600 rounded-md px-4 py-1 bg-emerald-400 hover:border-2 text-emerald-900"
+                      href={`/blog/edit/${ctx.params.id}`}
+                    >
+                      Edit <BsFillPencilFill />
+                    </Link>
+                    <button
+                      onClick={handleDelete}
+                      className="flex gap-3 items-center border border-rose-600 rounded-md px-4 py-1 bg-rose-400 hover:border-2 text-emerald-900"
+                    >
+                      Delete
+                      <AiFillDelete />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="">
+                    Author: <span>{blogDetails?.authorId?.username}</span>
+                  </div>
+                )}
+              </div>
+
+              <p className="leading-relaxed text-black text-sm overflow-y-scroll h-80 ">
+                {blogDetails?.desc}
+              </p>
+
+              <p className="text-black text-sm font-semibold my-4">
+                Posted: <span>{format(blogDetails?.createdAt)}</span>
+              </p>
+            </div>
           </div>
-          <div className={classes.comments}>
-            {comments?.length > 0 ? (
-              comments.map((comment) => (
-                <Comment
-                  key={comment._id}
-                  comment={comment}
-                  setComments={setComments}
+          <div className="my-10 mx-4 sm:mx-20">
+            <div className="bg-white p-4 rounded-lg shadow-md">
+              <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-2 mb-4 gap-4">
+                <Image
+                  src={Daco}
+                  width="45"
+                  height="45"
+                  alt=""
+                  className="w-10 h-10 sm:w-16 sm:h-16 rounded-full"
                 />
-              ))
-            ) : (
-              <h4 className={classes.noComments}>
-                No comments. Be the first one to leave a comment!
-              </h4>
-            )}
+                <input
+                  value={commentText}
+                  type="text"
+                  placeholder="Type message..."
+                  onChange={(e) => setCommentText(e.target.value)}
+                  className="w-full sm:w-1/2 border rounded-md py-2 px-3"
+                />
+                <button
+                  onClick={handleComment}
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                >
+                  Post
+                </button>
+              </div>
+              <div className="space-y-4">
+                {comments?.length > 0 ? (
+                  comments.map((comment) => (
+                    <Comment
+                      key={comment._id}
+                      comment={comment}
+                      setComments={setComments}
+                    />
+                  ))
+                ) : (
+                  <h4 className="text-gray-600">
+                    No comments. Be the first one to leave a comment!
+                  </h4>
+                )}
+              </div>
+            </div>
+            <ToastContainer />
           </div>
         </div>
-      </div>
-      <ToastContainer />
-    </div>
+      </section>
+    </>
   );
 };
 

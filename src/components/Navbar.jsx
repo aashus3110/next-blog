@@ -17,65 +17,66 @@ const Navbar = () => {
   const loggedIn = false;
 
   return (
-    <div
-      className={`sticky z-[999] h-16 w-full bg-white shadow-lg rounded-b-md flex justify-center items-center top-0 left-0`}
-    >
-      <div
-        className={`w-[85%] mx-auto flex justify-between items-center relative`}
-      >
-        <h2 className={`text-3xl text-emerald-500 font-bold`}>
-          <Link href="/">AashutoshSingh</Link>
-        </h2>
-        <ul className={`flex items-center gap-5`}>
+    <div>
+      <div className="flex justify-around items-center py-4 bg-rose-500 rounded-b-lg text-white text-sm shadow-md shadow-rose-950">
+        <span className="text-3xl font-mono font-semibold hover:text-red-200 duration-300">
+          <Link href="/">Singh&apos;s</Link>
+        </span>
+        <ul>
           {session?.user ? (
             <div>
               <Image
-                className="object-cover rounded-full cursor-pointer"
                 onClick={handleShowDropdown}
                 src={Daco}
                 width="45"
                 height="45"
                 alt="Picture of the author"
+                loading="lazy"
               />
               {showDropdown && (
-                <div
-                  className={`absolute bg-slate-400 py-6 px-2 flex flex-col items-center gap-5 top-10 -right-6 rounded-lg`}
-                >
+                <div className="absolute border border-rose-300 shadow-sm shadow-rose-700  flex flex-col px-5 py-6 right-10 sm:right-[10rem] md:right-[15rem] lg:right-[17rem] text-black text-base bg-rose-50 rounded-md">
                   <AiOutlineClose
-                    className={`absolute top-[0.3rem] right-1.5 cursor-pointer`}
                     onClick={handleHideDropdown}
+                    className="absolute right-2 top-1 border border-rose-300 text-rose-300 hover:text-rose-800 hover:border-rose-800 duration-500 rounded-full p-1 text-xl"
                   />
-                  <button
-                    onClick={() => {
-                      signOut();
-                      handleHideDropdown();
-                    }}
-                    className={`mx-auto px-4 m-2 py-1 border-none text-white rounded-lg font-bold text-sm bg-emerald-500`}
-                  >
-                    Logout
-                  </button>
-                  <Link
-                    onClick={handleHideDropdown}
-                    href="/create-blog"
-                    className={`text-white text-sm font-medium`}
-                  >
-                    Create
-                  </Link>
+                  <div className="flex flex-col gap-3 mt-2 font-semibold">
+                    <button
+                      className="hover:text-rose-400"
+                      onClick={() => {
+                        signOut();
+                        handleHideDropdown();
+                      }}
+                    >
+                      Logout
+                    </button>
+                    <Link
+                      onClick={handleHideDropdown}
+                      href="/create-blog"
+                      className="hover:text-rose-400"
+                    >
+                      Create
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
           ) : (
-            <>
+            <div className="text-sm font-semibold">
               <button
+                className="border border-red-300 hover:bg-red-400 hover:text-red-600 rounded-lg py-1 px-4 mx-4 duration-300"
                 onClick={() => {
                   signIn();
                 }}
-                className={`outline-none border-none px-6 py-1.5 text-sm bg-green-500 text-white rounded-xl cursor-pointer`}
               >
                 Log in
               </button>
-              <Link href="/register">Register</Link>
-            </>
+              <Link
+                className="hover:text-red-200 duration-300"
+                href="/register"
+              >
+                Register
+              </Link>
+            </div>
           )}
         </ul>
       </div>

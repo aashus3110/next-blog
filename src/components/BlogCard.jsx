@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from "react"; // Import useState and useEffect
 import Image from "next/image";
 import Link from "next/link";
-import classes from "@/components/css/blogCard.module.css";
 import { AiFillLike, AiOutlineLike } from "react-icons/ai";
 import { useSession } from "next-auth/react";
 
-const BlogCard = ({ blog: { title, desc, imageUrl, likes, _id } }) => {
+const BlogCard = ({
+  blog: { title, desc, imageUrl, likes, _id, category },
+}) => {
   const { data: session } = useSession();
   const [isLiked, setIsLiked] = useState(false);
   const [blogLikes, setBlogLikes] = useState(0);
@@ -19,8 +20,7 @@ const BlogCard = ({ blog: { title, desc, imageUrl, likes, _id } }) => {
     }
   }, [likes, session]);
 
-  const truncatedDesc = desc.slice(0, 15);
-
+  const truncatedDesc = desc.slice(0, 100);
   const handleLike = async () => {
     try {
       const res = await fetch(
@@ -49,39 +49,56 @@ const BlogCard = ({ blog: { title, desc, imageUrl, likes, _id } }) => {
   };
 
   return (
-    <div
-      className={`w-[23%] h-[450px] shadow-md duration-150 rounded-xl hover:shadow-xl`}
-    >
-      <div className={`p-5 w-full h-full flex flex-col`}>
-        <Link className={classes.imgContainer} href={`/blog/${_id}`}>
-          <Image
-            src={imageUrl}
-            width="350"
-            height="350"
-            className="object-cover rounded-3xl w-full mx-auto shadow-md"
-            alt="Picture of the author"
-          />
-        </Link>
-        <div className={`ml-3 flex justify-between items-center`}>
-          <div className={``}>
-            <h3 className="text-lg font-bold my-6">{title}</h3>
-            <p className="text-lg font-semibold my-6">
-              {truncatedDesc}
-              {desc.length > 15 ? "..." : ""}
-            </p>
-          </div>
-
-          <div className={`flex gap-2`}>
-            {blogLikes}{" "}
-            {isLiked ? (
-              <AiFillLike onClick={handleLike} size={20} />
-            ) : (
-              <AiOutlineLike onClick={handleLike} size={20} />
-            )}
+    <>
+      <section className="text-gray-600 body-font">
+        <div className="container px-5 py-24 mx-auto">
+          <div className="flex flex-wrap -m-4">
+            <div className="p-4 md:w-1/3 ">
+              <div className="h-full p-4 bg-white border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                <Link href={`/blog/${_id}`}>
+                  <Image
+                    src={imageUrl}
+                    width="500"
+                    height="500"
+                    className="hover:scale-x-125 duration-500 h-60 w-full"
+                    alt="Picture of the author"
+                    
+                  />
+                </Link>
+                <div className="p-6">
+                  <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
+                    {category}
+                  </h2>
+                  <h1 className="title-font text-lg font-medium text-gray-900 mb-3">
+                    {title}
+                  </h1>
+                  <p className="leading-relaxed mb-3">
+                    {truncatedDesc}
+                    {desc.length > 100 ? "..." : ""}
+                  </p>
+                  <div className="flex justify-around">
+                    <Link
+                      href={`/blog/${_id}`}
+                      class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 hover:text-rose-400"
+                    >
+                      Read More
+                    </Link>
+                    <span className="text-gray-400 flex gap-2 items-center leading-none text-base">
+                      {blogLikes}
+                      {isLiked ? (
+                        <AiFillLike onClick={handleLike} size={20} />
+                      ) : (
+                        <AiOutlineLike onClick={handleLike} size={20} />
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 

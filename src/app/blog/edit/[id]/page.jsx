@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import classes from "./edit.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
@@ -117,41 +116,58 @@ const Edit = (ctx) => {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.wrapper}>
-        <h2>Edit Post</h2>
+    <div className="container mx-auto p-4">
+      <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-semibold mb-4">Edit Post</h2>
         <form onSubmit={handleSubmit}>
-          <input
-            value={title}
-            type="text"
-            placeholder="Title..."
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <textarea
-            value={desc}
-            placeholder="Description..."
-            onChange={(e) => setDesc(e.target.value)}
-          />
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
+          <div className="mb-4">
+            <input
+              value={title}
+              type="text"
+              placeholder="Title..."
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-400"
+            />
+          </div>
+          <div className="mb-4">
+            <textarea
+              value={desc}
+              rows={10}
+              placeholder="Description..."
+              onChange={(e) => setDesc(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-400"
+            />
+          </div>
+          <div className="mb-4">
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-400"
+            >
+              <option value="Nature">Nature</option>
+              <option value="Mountain">Mountain</option>
+              <option value="Ocean">Ocean</option>
+              <option value="Wildlife">Wildlife</option>
+              <option value="Forest">Forest</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="image" className="cursor-pointer flex gap-3 items-center">
+              Upload Image <AiOutlineFileImage />
+              <input
+                id="image"
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => setPhoto(e.target.files[0])}
+              />
+            </label>
+          </div>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+            type="submit"
           >
-            <option value="Nature">Nature</option>
-            <option value="Mountain">Mountain</option>
-            <option value="Ocean">Ocean</option>
-            <option value="Wildlife">Wildlife</option>
-            <option value="Forest">Forest</option>
-          </select>
-          <label htmlFor="image">
-            Upload Image <AiOutlineFileImage />
-          </label>
-          <input
-            id="image"
-            type="file"
-            style={{ display: "none" }}
-            onChange={(e) => setPhoto(e.target.files[0])}
-          />
-          <button className={classes.createBlog}>Edit</button>
+            Edit
+          </button>
         </form>
       </div>
       <ToastContainer />

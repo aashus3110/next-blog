@@ -6,7 +6,6 @@ import { AiOutlineFileImage } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
-import classes from "./createBlog.module.css";
 
 const CreateBlog = () => {
   const CLOUD_NAME = "dfosuqxur";
@@ -55,7 +54,7 @@ const CreateBlog = () => {
       });
 
       if (!res.ok) {
-        throw new Error("Error occured");
+        throw new Error("Error occurred");
       }
 
       const blog = await res.json();
@@ -94,22 +93,26 @@ const CreateBlog = () => {
   };
 
   return (
-    <div className={classes.container}>
-      <div className={classes.wrapper}>
-        <h2>Create Post</h2>
-        <form onSubmit={handleSubmit}>
+    <div className="container mx-auto mt-10">
+      <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden">
+        <h2 className="text-2xl font-semibold p-4">Create Post</h2>
+        <form onSubmit={handleSubmit} className="p-4">
           <input
             type="text"
             placeholder="Title..."
             onChange={(e) => setTitle(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 w-full mb-4"
           />
           <textarea
             placeholder="Description..."
+            rows={10}
             onChange={(e) => setDesc(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 w-full mb-4"
           />
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
+            className="border border-gray-300 rounded-md py-2 px-3 w-full mb-4"
           >
             <option value="Nature">Nature</option>
             <option value="Mountain">Mountain</option>
@@ -117,7 +120,10 @@ const CreateBlog = () => {
             <option value="Wildlife">Wildlife</option>
             <option value="Forest">Forest</option>
           </select>
-          <label htmlFor="image">
+          <label
+            htmlFor="image"
+            className="cursor-pointer border border-gray-300 rounded-md py-2 px-3 w-full mb-4 text-center flex items-center gap-3"
+          >
             Upload Image <AiOutlineFileImage />
           </label>
           <input
@@ -126,7 +132,12 @@ const CreateBlog = () => {
             style={{ display: "none" }}
             onChange={(e) => setPhoto(e.target.files[0])}
           />
-          <button className={classes.createBlog}>Create</button>
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded-md w-full hover:bg-blue-600"
+            type="submit"
+          >
+            Create
+          </button>
         </form>
       </div>
       <ToastContainer />
